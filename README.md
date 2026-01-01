@@ -1,4 +1,10 @@
 Sajdahquranschool@gmail.com 
 
-NEXT_PUBLIC_SUPABASE_URL=https://gkbjqrstrzxxptozcsvz.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdrYmpxcnN0cnp4eHB0b3pjc3Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE2NDM2NjcsImV4cCI6MjA3NzIxOTY2N30.yiSbQ_B2XDmGI37acRZ6h5Q0Tm7xb_LuVA9ffxiQMaA
+## Environment variables (set in Vercel)
+
+Create a `.env.local` file locally or set these in Vercel:
+
+- NEXT_PUBLIC_SUPABASE_URL
+- NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+Do not commit real values to the repository.
