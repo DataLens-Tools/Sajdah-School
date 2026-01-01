@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sajdah Qur'an School — Online Quran, Tajweed, Arabic</title>
+  <meta name="description" content="Sajdah Qur'an School: online Qur'an, Tajweed, Islamic Studies and Arabic with Al-Azhar teachers. Male & female teachers. Kids and adults. Free trial." />
+  <!-- main theme colour = green -->
+  <meta name="theme-color" content="#166534" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter','system-ui','sans-serif'],
+            arabic: ['Cairo','system-ui','sans-serif'],
+          },
+          colors: {
+            // deep green
+            brand: {
+              50:'#ecfdf3',100:'#d1fae5',200:'#a7f3d0',300:'#6ee7b7',
+              400:'#34d399',500:'#22c55e',600:'#16a34a',700:'#15803d',
+              800:'#166534',900:'#14532d'
+            },
+            // golden / yellow
+            accent: {
+              50:'#fefce8',100:'#fef3c7',200:'#fde68a',300:'#fcd34d',
+              400:'#fbbf24',500:'#f59e0b',600:'#d97706',700:'#b45309',
+              800:'#92400e',900:'#78350f'
+            },
+            surface: '#f9fafb',
+            ink: '#0f172a'
+          },
+          backgroundImage: {
+            'quran-pattern': "radial-gradient(circle at 10% 20%, rgba(250,191,36,0.08) 0%, transparent 55%), radial-gradient(circle at 90% 30%, rgba(22,163,74,0.08) 0%, transparent 55%)"
+          },
+          boxShadow: {
+            'soft': '0 14px 35px rgba(15,23,42,0.12)'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    html{scroll-behavior:smooth}
+    .reveal{opacity:0;transform:translateY(16px);transition:all .6s ease}
+    .reveal.show{opacity:1;transform:none}
+    [dir="rtl"] .rtl\:text-right{text-align:right}
+  </style>
+</head>
+<body class="bg-white text-slate-900 antialiased font-sans">
+  <!-- top strip -->
+  <div class="bg-brand-800 text-emerald-50 text-xs">
+    <div class="max-w-7xl mx-auto px-4 py-2 flex items-center justify-between gap-4">
+      <p class="hidden sm:block">
+        📖 Qur'an • Tajweed • Islamic Studies • Arabic — Taught by Al-Azhar teachers
+      </p>
+      <div class="flex items-center gap-3">
+        <button id="langToggle" class="px-2.5 py-1 rounded bg-brand-600/90 text-emerald-50 text-xs">العربية</button>
+        <a href="#contact" class="px-3 py-1 rounded border border-emerald-100/70 text-emerald-50 text-xs hover:bg-emerald-100/10">Free Trial</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- header -->
+  <header class="sticky top-0 z-40 backdrop-blur bg-white/90 border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <!-- logo -->
+        <img src="assets/sajdah-logo.png" alt="Sajdah Qur'an School"
+             class="w-12 h-12 object-contain">
+        <div>
+          <h1 class="text-lg sm:text-xl font-extrabold tracking-tight text-slate-900">Sajdah Qur'an School</h1>
+          <p class="text-[11px] text-slate-500">Qur'an • Tajweed • Islamic Studies • Arabic</p>
+        </div>
+      </div>
+      <nav class="hidden md:flex items-center gap-6 text-sm">
+        <a href="#courses" class="text-slate-700 hover:text-brand-700">Courses</a>
+        <a href="#why" class="text-slate-700 hover:text-brand-700">Why us</a>
+        <a href="#teachers" class="text-slate-700 hover:text-brand-700">Teachers</a>
+        <a href="#contact" class="px-4 py-1.5 rounded-lg bg-brand-700 text-white shadow-soft hover:bg-brand-600">Free Trial</a>
+      </nav>
+      <button id="menuBtn" class="md:hidden p-2 text-slate-800" aria-label="menu">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+    </div>
+    <div id="mobileNav" class="hidden md:hidden border-t border-slate-200 bg-white/95">
+      <div class="px-4 py-3 grid gap-2 text-sm text-slate-800">
+        <a href="#courses">Courses</a>
+        <a href="#why">Why us</a>
+        <a href="#teachers">Teachers</a>
+        <a href="/login?role=student">Student Login</a>
+        <a href="/login?role=teacher">Teacher Login</a>
+        <a href="/login?role=admin">Admin</a>
+        <a href="#contact" class="mt-2 inline-block px-4 py-2 rounded bg-brand-700 text-white text-center">Free Trial</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- hero -->
+  <section class="relative overflow-hidden bg-quran-pattern">
+    <div class="max-w-7xl mx-auto px-4 pt-14 pb-20 grid lg:grid-cols-2 gap-10 items-center">
+      <div class="reveal">
+        <p class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-xs text-emerald-800">
+          <span class="w-2 h-2 rounded-full bg-accent-400"></span> Al-Azhar style • Male & Female teachers
+        </p>
+        <h2 class="mt-5 text-3xl sm:text-4xl lg:text-5xl font-black leading-tight text-slate-900">
+          Online Qur'an & Arabic in a calm, authentic environment
+        </h2>
+        <p class="mt-4 text-slate-700">
+          Structured lessons for kids and adults, with clear plans: Qur'an reading, Tajweed, Islamic Studies, and Arabic.
+        </p>
+        <div class="mt-7 flex flex-wrap gap-3">
+          <a href="#contact" class="px-6 py-3 rounded-xl bg-brand-700 hover:bg-brand-600 text-white shadow-soft">Request Free Trial</a>
+          <a href="#courses" class="px-6 py-3 rounded-xl border border-slate-200 text-slate-800 hover:bg-slate-50">View Courses</a>
+          <a href="https://wa.me/201503780010" target="_blank" class="px-6 py-3 rounded-xl bg-white border border-slate-200 text-slate-800 text-sm font-semibold flex items-center gap-2 hover:bg-slate-50">
+            <span>WhatsApp</span>
+          </a>
+        </div>
+        <div class="mt-5 flex flex-wrap gap-5 text-xs text-slate-600">
+          <span>🟢 One-to-one or group</span>
+          <span>🟢 Female teachers available</span>
+          <span>🟢 EU • UK • MENA time zones</span>
+        </div>
+      </div>
+      <div class="reveal">
+        <!-- 4 course blocks -->
+        <div class="bg-white border border-amber-100 rounded-3xl p-6 grid grid-cols-2 gap-4 shadow-soft/40">
+          <div class="rounded-2xl bg-emerald-50 border border-emerald-100 p-4">
+            <h3 class="font-bold text-emerald-900">1. Qur'an Reading</h3>
+            <p class="text-xs text-slate-700 mt-1">Noorani / Qaida • correct letters • short surahs.</p>
+          </div>
+          <div class="rounded-2xl bg-emerald-50 border border-accent-100 p-4">
+            <h3 class="font-bold text-emerald-900">2. Tajweed</h3>
+            <p class="text-xs text-slate-700 mt-1">Makharij, sifat, rules with live correction.</p>
+          </div>
+          <div class="rounded-2xl bg-accent-50 border border-accent-100 p-4">
+            <h3 class="font-bold text-amber-900">3. Islamic Studies</h3>
+            <p class="text-xs text-slate-700 mt-1">Aqidah, Fiqh of worship, Seerah, Adab.</p>
+          </div>
+          <div class="rounded-2xl bg-emerald-50 border border-emerald-100 p-4">
+            <h3 class="font-bold text-emerald-900">4. Arabic</h3>
+            <p class="text-xs text-slate-700 mt-1">Qur'anic & MSA • reading • basic conversation.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- courses -->
+<section
+  id="courses"
+  aria-labelledby="courses-title"
+  class="py-20 bg-gradient-to-b from-slate-50 via-amber-50/40 to-slate-50"
+>
+  <div class="max-w-7xl mx-auto px-4">
+    <!-- Heading -->
+    <div class="reveal text-center max-w-3xl mx-auto">
+      <p
+        class="inline-flex items-center gap-2 rounded-full bg-amber-100/70 px-4 py-1 text-xs font-semibold uppercase tracking-wide text-amber-700"
+      >
+        Our Programs
+        <span class="h-1 w-1 rounded-full bg-amber-500"></span>
+        Kids • Sisters • New Muslims
+      </p>
+      <h3
+        id="courses-title"
+        class="mt-4 text-3xl font-extrabold text-slate-900"
+      >
+        Our 4 Core Courses
+      </h3>
+      <p class="mt-2 text-slate-600">
+        Exactly what your teacher mentioned – step-by-step and live online.
+      </p>
+    </div>
+
+    <!-- Colorful cards -->
+    <div
+      class="mt-10 grid gap-5 md:gap-6 md:grid-cols-2 lg:grid-cols-4"
+    >
+      <!-- 1. Qur'an Reading -->
+      <article
+        class="reveal relative overflow-hidden rounded-2xl bg-white border border-amber-200/70 shadow-lg shadow-amber-100/70 transition hover:-translate-y-1 hover:shadow-xl hover:shadow-amber-100/90"
+      >
+        <!-- top gradient strip -->
+        <div
+          class="h-1.5 w-full bg-gradient-to-r from-pink-500 via-rose-400 to-amber-400"
+        ></div>
+
+        <!-- number badge -->
+        <span
+          class="absolute -top-3 left-4 inline-flex h-7 w-7 md:h-8 md:w-8 items-center justify-center rounded-full bg-pink-500 text-[10px] font-bold text-white shadow-md"
+        >
+          01
+        </span>
+
+        <div class="p-5 pt-7">
+          <h4 class="text-xl font-bold text-slate-900">
+            Qur'an Reading
+          </h4>
+          <p class="mt-1 text-sm text-slate-700">
+            For beginners &amp; kids.
+          </p>
+          <ul class="mt-3 space-y-1.5 text-sm text-slate-700">
+            <li>• Arabic letters &amp; sounds</li>
+            <li>• Noorani / Qaida method</li>
+            <li>• Short surahs with practice</li>
+          </ul>
+          <p class="mt-3 text-xs font-semibold text-pink-600">
+            Goal: read Qur'an correctly line-by-line.
+          </p>
+        </div>
+      </article>
+
+      <!-- 2. Tajweed -->
+      <article
+        class="reveal relative overflow-hidden rounded-2xl bg-white border border-amber-200/70 shadow-lg shadow-amber-100/70 transition hover:-translate-y-1 hover:shadow-xl hover:shadow-amber-100/90"
+      >
+        <div
+          class="h-1.5 w-full bg-gradient-to-r from-amber-400 via-orange-400 to-rose-400"
+        ></div>
+        <span
+          class="absolute -top-3 left-4 inline-flex h-7 w-7 md:h-8 md:w-8 items-center justify-center rounded-full bg-amber-400 text-[10px] font-bold text-white shadow-md"
+        >
+          02
+        </span>
+
+        <div class="p-5 pt-7">
+          <h4 class="text-xl font-bold text-slate-900">
+            Tajweed
+          </h4>
+          <p class="mt-1 text-sm text-slate-700">
+            Rule-based recitation.
+          </p>
+          <ul class="mt-3 space-y-1.5 text-sm text-slate-700">
+            <li>• Makharij &amp; sifat</li>
+            <li>• Idgham, ikhfa, qalqalah</li>
+            <li>• Teacher listens &amp; corrects</li>
+          </ul>
+          <p class="mt-3 text-xs font-semibold text-amber-600">
+            Goal: recite like your teacher.
+          </p>
+        </div>
+      </article>
+
+      <!-- 3. Islamic Studies -->
+      <article
+        class="reveal relative overflow-hidden rounded-2xl bg-white border border-amber-200/70 shadow-lg shadow-amber-100/70 transition hover:-translate-y-1 hover:shadow-xl hover:shadow-amber-100/90"
+      >
+        <div
+          class="h-1.5 w-full bg-gradient-to-r from-emerald-400 via-teal-400 to-sky-400"
+        ></div>
+        <span
+          class="absolute -top-3 left-4 inline-flex h-7 w-7 md:h-8 md:w-8 items-center justify-center rounded-full bg-emerald-400 text-[10px] font-bold text-white shadow-md"
+        >
+          03
+        </span>
+
+        <div class="p-5 pt-7">
+          <h4 class="text-xl font-bold text-slate-900">
+            Islamic Studies
+          </h4>
+          <p class="mt-1 text-sm text-slate-700">
+            For kids, sisters, and new Muslims.
+          </p>
+          <ul class="mt-3 space-y-1.5 text-sm text-slate-700">
+            <li>• Aqidah &amp; pillars of Islam</li>
+            <li>• Fiqh (wudu, salah, fasting)</li>
+            <li>• Seerah &amp; manners</li>
+          </ul>
+          <p class="mt-3 text-xs font-semibold text-emerald-600">
+            Goal: understand &amp; practice Islam.
+          </p>
+        </div>
+      </article>
+
+      <!-- 4. Arabic -->
+      <article
+        class="reveal relative overflow-hidden rounded-2xl bg-white border border-amber-200/70 shadow-lg shadow-amber-100/70 transition hover:-translate-y-1 hover:shadow-xl hover:shadow-amber-100/90"
+      >
+        <div
+          class="h-1.5 w-full bg-gradient-to-r from-sky-400 via-indigo-400 to-violet-500"
+        ></div>
+        <span
+          class="absolute -top-3 left-4 inline-flex h-7 w-7 md:h-8 md:w-8 items-center justify-center rounded-full bg-sky-500 text-[10px] font-bold text-white shadow-md"
+        >
+          04
+        </span>
+
+        <div class="p-5 pt-7">
+          <h4 class="text-xl font-bold text-slate-900">
+            Arabic
+          </h4>
+          <p class="mt-1 text-sm text-slate-700">
+            Qur’anic &amp; modern Arabic.
+          </p>
+          <ul class="mt-3 space-y-1.5 text-sm text-slate-700">
+            <li>• Reading &amp; writing</li>
+            <li>• Basic grammar</li>
+            <li>• Conversation for sisters/kids</li>
+          </ul>
+          <p class="mt-3 text-xs font-semibold text-sky-600">
+            Goal: understand what you recite.
+          </p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+  <!-- teachers -->
+  <section id="teachers" class="py-16 bg-slate-50">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="reveal text-center max-w-2xl mx-auto">
+        <h3 class="text-3xl font-extrabold text-slate-900">Our Teachers</h3>
+        <p class="mt-3 text-slate-600">A selected group of highly qualified Al-Azhar teachers.</p>
+      </div>
+      <div class="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="reveal rounded-2xl bg-white border border-slate-200 p-6 shadow-soft/40">
+          <div class="w-16 h-16 rounded-full bg-brand-50 border border-brand-200"></div>
+          <h4 class="mt-4 font-bold text-slate-900">Ustadh Ahmed</h4>
+          <p class="text-sm text-slate-600">Tajweed • Hifz • Adults & boys</p>
+        </div>
+        <div class="reveal rounded-2xl bg-white border border-slate-200 p-6 shadow-soft/40">
+          <div class="w-16 h-16 rounded-full bg-brand-50 border border-brand-200"></div>
+          <h4 class="mt-4 font-bold text-slate-900">Ustadha Mariam</h4>
+          <p class="text-sm text-slate-600">Qur'an for sisters • Kids • Islamic manners</p>
+        </div>
+        <div class="reveal rounded-2xl bg-white border border-slate-200 p-6 shadow-soft/40">
+          <div class="w-16 h-16 rounded-full bg-brand-50 border border-brand-200"></div>
+          <h4 class="mt-4 font-bold text-slate-900">Ustadha Fatima</h4>
+          <p class="text-sm text-slate-600">Arabic reading • Seerah • Ladies</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Login role section -->
+<section id="login" class="py-16 bg-slate-50">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="reveal text-center max-w-2xl mx-auto">
+      <h3 class="text-3xl font-extrabold text-slate-900">Login</h3>
+      <p class="mt-3 text-slate-600">
+        Choose your role to continue to your dashboard.
+      </p>
+    </div>
+    <div class="mt-10 grid sm:grid-cols-3 gap-4">
+      <a href="/login?role=student"
+         class="reveal block rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-soft/40 hover:shadow-soft">
+        <h4 class="text-xl font-bold text-slate-900">Student</h4>
+        <p class="mt-1 text-sm text-slate-600">Enroll in courses, view schedule</p>
+      </a>
+      <a href="/login?role=teacher"
+         class="reveal block rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-soft/40 hover:shadow-soft">
+        <h4 class="text-xl font-bold text-slate-900">Teacher</h4>
+        <p class="mt-1 text-sm text-slate-600">Set availability, manage classes</p>
+      </a>
+      <a href="/login?role=admin"
+         class="reveal block rounded-2xl border border-amber-200 bg-white p-6 text-center shadow-soft/40 hover:shadow-soft">
+        <h4 class="text-xl font-bold text-slate-900">Admin</h4>
+        <p class="mt-1 text-sm text-slate-600">Approve users, assign sessions</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+
+  <!-- contact -->
+  <section id="contact" class="py-16">
+    <div class="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-10 items-center">
+      <div class="reveal">
+        <h3 class="text-3xl font-extrabold text-slate-900">Book your free trial</h3>
+        <p class="mt-3 text-slate-600">Send us your name, child's age, course you want, and your time zone.</p>
+        <div class="mt-6 space-y-3">
+          <a href="https://wa.me/201503780010" target="_blank" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-emerald-600 text-white shadow-soft hover:bg-emerald-500">
+            WhatsApp: +20 15 03780010
+          </a>
+          <a href="mailto:info@sajdahquran.academy" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl border border-slate-200 text-slate-800 hover:bg-slate-50">
+            Email: info@sajdahquran.academy
+          </a>
+        </div>
+      </div>
+      <form class="reveal bg-white border border-slate-200 rounded-3xl p-6 grid gap-4 shadow-soft" onsubmit="event.preventDefault(); alert('Thank you! We will contact you shortly in shaa Allah.');">
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label class="text-sm text-slate-700">Name</label>
+            <input required class="mt-1 w-full rounded-lg bg-white border border-slate-300 px-3 py-2 text-sm" type="text" placeholder="Your name">
+          </div>
+          <div>
+            <label class="text-sm text-slate-700">Email</label>
+            <input required class="mt-1 w-full rounded-lg bg-white border border-slate-300 px-3 py-2 text-sm" type="email" placeholder="you@example.com">
+          </div>
+        </div>
+        <div>
+          <label class="text-sm text-slate-700">Course</label>
+          <select class="mt-1 w-full rounded-lg bg-white border border-slate-300 px-3 py-2 text-sm">
+            <option>Qur'an Reading</option>
+            <option>Tajweed</option>
+            <option>Islamic Studies</option>
+            <option>Arabic</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-sm text-slate-700">Message / Time zone</label>
+          <textarea class="mt-1 w-full rounded-lg bg-white border border-slate-300 px-3 py-2 text-sm" rows="3" placeholder="e.g. Europe/Berlin, evening, for my 7-year-old daughter"></textarea>
+        </div>
+        <button class="mt-1 px-5 py-3 rounded-xl bg-brand-700 hover:bg-brand-600 text-white text-sm font-semibold">Send</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- footer -->
+  <footer class="py-10 border-t border-slate-200 bg-white">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between gap-4 text-sm text-slate-500">
+      <p>© <span id="year"></span> Sajdah Qur'an School. All rights reserved.</p>
+      <p>Qur'an • Tajweed • Islamic Studies • Arabic</p>
+    </div>
+  </footer>
+
+  <script>
+    // reveals
+    const onScroll = () => {
+      document.querySelectorAll('.reveal').forEach(el => {
+        const r = el.getBoundingClientRect();
+        if (r.top < window.innerHeight - 80) el.classList.add('show');
+      });
+    };
+    window.addEventListener('scroll', onScroll);
+    window.addEventListener('load', () => {
+      onScroll();
+      document.getElementById('year').textContent = new Date().getFullYear();
+    });
+
+    // mobile menu
+    document.getElementById('menuBtn').addEventListener('click', () => {
+      document.getElementById('mobileNav').classList.toggle('hidden');
+    });
+
+    // RTL toggle
+    const langBtn = document.getElementById('langToggle');
+    langBtn.addEventListener('click', () => {
+      const html = document.documentElement;
+      const rtl = html.getAttribute('dir') === 'rtl';
+      html.setAttribute('dir', rtl ? 'ltr' : 'rtl');
+      html.setAttribute('lang', rtl ? 'en' : 'ar');
+      langBtn.textContent = rtl ? 'العربية' : 'English';
+      document.body.style.fontFamily = rtl ? 'Inter, system-ui' : 'Cairo, Inter, system-ui';
+    });
+  </script>
+</body>
+</html>

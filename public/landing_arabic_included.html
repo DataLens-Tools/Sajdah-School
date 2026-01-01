@@ -1,0 +1,813 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sajdah Qur'an School — Online Quran, Tajweed, Arabic</title>
+  <meta name="description" content="Sajdah Qur'an School: online Qur'an, Tajweed, Islamic Studies and Arabic with Al-Azhar teachers. Male & female teachers. Kids and adults. Free trial." />
+  <!-- main theme colour = green -->
+  <meta name="theme-color" content="#166534" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter','system-ui','sans-serif'],
+            arabic: ['Cairo','system-ui','sans-serif'],
+          },
+          colors: {
+            brand: {
+              50:'#ecfdf3',100:'#d1fae5',200:'#a7f3d0',300:'#6ee7b7',
+              400:'#34d399',500:'#22c55e',600:'#16a34a',700:'#15803d',
+              800:'#166534',900:'#14532d'
+            },
+            accent: {
+              50:'#fefce8',100:'#fef3c7',200:'#fde68a',300:'#fcd34d',
+              400:'#fbbf24',500:'#f59e0b',600:'#d97706',700:'#b45309',
+              800:'#92400e',900:'#78350f'
+            },
+            surface: '#f9fafb',
+            ink: '#0f172a'
+          },
+          backgroundImage: {
+            'quran-pattern': "radial-gradient(circle at 10% 20%, rgba(250,191,36,0.08) 0%, transparent 55%), radial-gradient(circle at 90% 30%, rgba(22,163,74,0.08) 0%, transparent 55%)"
+          },
+          boxShadow: {
+            'soft': '0 14px 35px rgba(15,23,42,0.12)'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    html{scroll-behavior:smooth}
+    .reveal{opacity:0;transform:translateY(16px);transition:all .6s ease}
+    .reveal.show{opacity:1;transform:none}
+    [dir="rtl"] .rtl\:text-right{text-align:right}
+  </style>
+</head>
+<body class="bg-white text-slate-900 antialiased font-sans">
+
+  <!-- top strip -->
+  <div class="bg-brand-800 text-emerald-50 text-xs">
+    <div class="max-w-7xl mx-auto px-4 py-2 flex items-center justify-between gap-4">
+      <p
+        class="hidden sm:block"
+        data-en="📖 Qur'an • Tajweed • Islamic Studies • Arabic — Taught by Al-Azhar teachers"
+        data-ar="📖 القرآن • التجويد • الدراسات الإسلامية • العربية — يدرّسها أساتذة من الأزهر"
+      >
+        📖 Qur'an • Tajweed • Islamic Studies • Arabic — Taught by Al-Azhar teachers
+      </p>
+      <div class="flex items-center gap-3">
+        <button
+          id="langToggle"
+          class="px-2.5 py-1 rounded bg-brand-600/90 text-emerald-50 text-xs"
+        >
+          العربية
+        </button>
+        <a
+          href="#contact"
+          class="px-3 py-1 rounded border border-emerald-100/70 text-emerald-50 text-xs hover:bg-emerald-100/10"
+          data-en="Free Trial"
+          data-ar="حصة تجريبية مجانية"
+        >
+          Free Trial
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- header -->
+  <header class="sticky top-0 z-40 backdrop-blur bg-white/90 border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <!-- logo -->
+        <img src="assets/sajdah-logo.png" alt="Sajdah Qur'an School"
+             class="w-12 h-12 object-contain">
+        <div>
+          <h1
+            class="text-lg sm:text-xl font-extrabold tracking-tight text-slate-900"
+            data-en="Sajdah Qur'an School"
+            data-ar="مدرسة سجدة للقرآن"
+          >
+            Sajdah Qur'an School
+          </h1>
+          <p
+            class="text-[11px] text-slate-500"
+            data-en="Qur'an • Tajweed • Islamic Studies • Arabic"
+            data-ar="القرآن • التجويد • الدراسات الإسلامية • العربية"
+          >
+            Qur'an • Tajweed • Islamic Studies • Arabic
+          </p>
+        </div>
+      </div>
+      <nav class="hidden md:flex items-center gap-6 text-sm">
+        <a
+          href="#courses"
+          class="text-slate-700 hover:text-brand-700"
+          data-en="Courses"
+          data-ar="الدورات"
+        >
+          Courses
+        </a>
+        <a
+          href="#why"
+          class="text-slate-700 hover:text-brand-700"
+          data-en="Why us"
+          data-ar="لماذا نحن"
+        >
+          Why us
+        </a>
+        <a
+          href="#teachers"
+          class="text-slate-700 hover:text-brand-700"
+          data-en="Teachers"
+          data-ar="المعلمون"
+        >
+          Teachers
+        </a>
+        <a
+          href="#contact"
+          class="px-4 py-1.5 rounded-lg bg-brand-700 text-white shadow-soft hover:bg-brand-600"
+          data-en="Free Trial"
+          data-ar="حصة تجريبية مجانية"
+        >
+          Free Trial
+        </a>
+      </nav>
+      <button id="menuBtn" class="md:hidden p-2 text-slate-800" aria-label="menu">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+    </div>
+    <div id="mobileNav" class="hidden md:hidden border-t border-slate-200 bg-white/95">
+      <div class="px-4 py-3 grid gap-2 text-sm text-slate-800">
+        <a href="#courses" data-en="Courses" data-ar="الدورات">Courses</a>
+        <a href="#why" data-en="Why us" data-ar="لماذا نحن">Why us</a>
+        <a href="#teachers" data-en="Teachers" data-ar="المعلمون">Teachers</a>
+        <a href="/login?role=student" data-en="Student Login" data-ar="تسجيل دخول الطالب">Student Login</a>
+        <a href="/login?role=teacher" data-en="Teacher Login" data-ar="تسجيل دخول المعلم">Teacher Login</a>
+        <a href="/login?role=admin" data-en="Admin" data-ar="المشرف">Admin</a>
+        <a
+          href="#contact"
+          class="mt-2 inline-block px-4 py-2 rounded bg-brand-700 text-white text-center"
+          data-en="Free Trial"
+          data-ar="حصة تجريبية مجانية"
+        >
+          Free Trial
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- hero -->
+  <section class="relative overflow-hidden bg-quran-pattern">
+    <div class="max-w-7xl mx-auto px-4 pt-14 pb-20 grid lg:grid-cols-2 gap-10 items-center">
+      <div class="reveal">
+        <p
+          class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-xs text-emerald-800"
+          data-en="Al-Azhar style • Male & Female teachers"
+          data-ar="على منهج الأزهر • معلمون ومعلمات"
+        >
+          <span class="w-2 h-2 rounded-full bg-accent-400"></span>
+          Al-Azhar style • Male & Female teachers
+        </p>
+
+        <h2
+          class="mt-5 text-3xl sm:text-4xl lg:text-5xl font-black leading-tight text-slate-900"
+          data-en="Online Qur'an & Arabic in a calm, authentic environment"
+          data-ar="تعلّم القرآن واللغة العربية أونلاين في بيئة هادئة وأصيلة"
+        >
+          Online Qur'an & Arabic in a calm, authentic environment
+        </h2>
+
+        <p
+          class="mt-4 text-slate-700"
+          data-en="Structured lessons for kids and adults, with clear plans: Qur'an reading, Tajweed, Islamic Studies, and Arabic."
+          data-ar="دروس منظمة للصغار والكبار، بخطط واضحة: قراءة القرآن، التجويد، الدراسات الإسلامية واللغة العربية."
+        >
+          Structured lessons for kids and adults, with clear plans: Qur'an reading,
+          Tajweed, Islamic Studies, and Arabic.
+        </p>
+
+        <!-- Main CTAs -->
+        <div class="mt-7 flex flex-wrap gap-3">
+          <a
+            href="#contact"
+            class="px-6 py-3 rounded-xl bg-brand-700 hover:bg-brand-600 text-white shadow-soft"
+            data-en="Request Free Trial"
+            data-ar="طلب حصة تجريبية مجانية"
+          >
+            Request Free Trial
+          </a>
+          <a
+            href="#courses"
+            class="px-6 py-3 rounded-xl border border-slate-200 text-slate-800 hover:bg-slate-50"
+            data-en="View Courses"
+            data-ar="عرض الدورات"
+          >
+            View Courses
+          </a>
+          <a
+            href="https://wa.me/201503780010"
+            target="_blank"
+            class="px-6 py-3 rounded-xl bg-white border border-slate-200 text-slate-800 text-sm font-semibold flex items-center gap-2 hover:bg-slate-50"
+          >
+            <span
+              data-en="WhatsApp"
+              data-ar="واتساب"
+            >
+              WhatsApp
+            </span>
+          </a>
+        </div>
+
+        <!-- Role Login quick actions -->
+        <div class="mt-4 flex flex-wrap gap-2 text-sm">
+          <a href="/login?role=student"
+             class="px-4 py-2 rounded-xl border border-slate-200 text-slate-800 hover:bg-slate-50"
+             data-en="Login as Student"
+             data-ar="تسجيل دخول الطالب">
+            Login as Student
+          </a>
+          <a href="/login?role=teacher"
+             class="px-4 py-2 rounded-xl border border-slate-200 text-slate-800 hover:bg-slate-50"
+             data-en="Login as Teacher"
+             data-ar="تسجيل دخول المعلم">
+            Login as Teacher
+          </a>
+          <a href="/login?role=admin"
+             class="px-4 py-2 rounded-xl border border-amber-300 text-amber-800 bg-amber-50 hover:bg-amber-100"
+             data-en="Admin Login"
+             data-ar="دخول المشرف">
+            Admin Login
+          </a>
+        </div>
+
+        <!-- Small trust badges -->
+        <div class="mt-5 flex flex-wrap gap-5 text-xs text-slate-600">
+          <span data-en="🟢 One-to-one or group" data-ar="🟢 دروس فردية أو جماعية">🟢 One-to-one or group</span>
+          <span data-en="🟢 Female teachers available" data-ar="🟢 معلمات متوفرات">🟢 Female teachers available</span>
+          <span data-en="🟢 EU • UK • MENA time zones" data-ar="🟢 مواعيد تناسب أوروبا والمملكة المتحدة والمنطقة العربية">🟢 EU • UK • MENA time zones</span>
+        </div>
+      </div>
+
+      <!-- Right column cards -->
+      <div class="reveal">
+        <div class="bg-white border border-amber-100 rounded-3xl p-6 grid grid-cols-2 gap-4 shadow-soft/40">
+          <div class="rounded-2xl bg-emerald-50 border border-emerald-100 p-4">
+            <h3
+              class="font-bold text-emerald-900"
+              data-en="1. Qur'an Reading"
+              data-ar="١. قراءة القرآن"
+            >
+              1. Qur'an Reading
+            </h3>
+            <p
+              class="text-xs text-slate-700 mt-1"
+              data-en="Noorani / Qaida • correct letters • short surahs."
+              data-ar="قاعدة نورانية / القاعدة البغدادية • تصحيح الحروف • السور القصيرة."
+            >
+              Noorani / Qaida • correct letters • short surahs.
+            </p>
+          </div>
+          <div class="rounded-2xl bg-emerald-50 border border-accent-100 p-4">
+            <h3
+              class="font-bold text-emerald-900"
+              data-en="2. Tajweed"
+              data-ar="٢. التجويد"
+            >
+              2. Tajweed
+            </h3>
+            <p
+              class="text-xs text-slate-700 mt-1"
+              data-en="Makharij, sifat, rules with live correction."
+              data-ar="مخارج الحروف، الصفات، القواعد مع تصحيح مباشر."
+            >
+              Makharij, sifat, rules with live correction.
+            </p>
+          </div>
+          <div class="rounded-2xl bg-accent-50 border border-accent-100 p-4">
+            <h3
+              class="font-bold text-amber-900"
+              data-en="3. Islamic Studies"
+              data-ar="٣. الدراسات الإسلامية"
+            >
+              3. Islamic Studies
+            </h3>
+            <p
+              class="text-xs text-slate-700 mt-1"
+              data-en="Aqidah, Fiqh of worship, Seerah, Adab."
+              data-ar="العقيدة، فقه العبادات، السيرة، الآداب."
+            >
+              Aqidah, Fiqh of worship, Seerah, Adab.
+            </p>
+          </div>
+          <div class="rounded-2xl bg-emerald-50 border border-emerald-100 p-4">
+            <h3
+              class="font-bold text-emerald-900"
+              data-en="4. Arabic"
+              data-ar="٤. اللغة العربية"
+            >
+              4. Arabic
+            </h3>
+            <p
+              class="text-xs text-slate-700 mt-1"
+              data-en="Qur'anic &amp; MSA • reading • basic conversation."
+              data-ar="العربية الفصحى والقرآنية • القراءة • المحادثة الأساسية."
+            >
+              Qur'anic &amp; MSA • reading • basic conversation.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- courses -->
+  <section
+    id="courses"
+    aria-labelledby="courses-title"
+    class="py-20 bg-gradient-to-b from-slate-50 via-amber-50/40 to-slate-50"
+  >
+    <div class="max-w-7xl mx-auto px-4">
+      <!-- Heading -->
+      <div class="reveal text-center max-w-3xl mx-auto">
+        <p
+          class="inline-flex items-center gap-2 rounded-full bg-amber-100/70 px-4 py-1 text-xs font-semibold uppercase tracking-wide text-amber-700"
+          data-en="Our Programs • Kids • Sisters • New Muslims"
+          data-ar="برامجنا • للأطفال • للأخوات • للمسلمين الجدد"
+        >
+          Our Programs
+          <span class="h-1 w-1 rounded-full bg-amber-500"></span>
+          Kids • Sisters • New Muslims
+        </p>
+        <h3
+          id="courses-title"
+          class="mt-4 text-3xl font-extrabold text-slate-900"
+          data-en="Our 4 Core Courses"
+          data-ar="أهم أربع دورات لدينا"
+        >
+          Our 4 Core Courses
+        </h3>
+        <p
+          class="mt-2 text-slate-600"
+          data-en="Exactly what your teacher mentioned – step-by-step and live online."
+          data-ar="تماماً كما ذكرت معلمتك – بخطوات متدرجة ودروس مباشرة عبر الإنترنت."
+        >
+          Exactly what your teacher mentioned – step-by-step and live online.
+        </p>
+      </div>
+
+      <!-- Colorful cards -->
+      <div class="mt-10 grid gap-5 md:gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <!-- 1. Qur'an Reading -->
+        <article class="reveal relative overflow-hidden rounded-2xl bg-white border border-amber-200/70 shadow-lg shadow-amber-100/70 transition hover:-translate-y-1 hover:shadow-xl hover:shadow-amber-100/90">
+          <div class="h-1.5 w-full bg-gradient-to-r from-pink-500 via-rose-400 to-amber-400"></div>
+          <span class="absolute -top-3 left-4 inline-flex h-7 w-7 md:h-8 md:w-8 items-center justify-center rounded-full bg-pink-500 text-[10px] font-bold text-white shadow-md">
+            01
+          </span>
+
+          <div class="p-5 pt-7">
+            <h4
+              class="text-xl font-bold text-slate-900"
+              data-en="Qur'an Reading"
+              data-ar="قراءة القرآن"
+            >
+              Qur'an Reading
+            </h4>
+            <p
+              class="mt-1 text-sm text-slate-700"
+              data-en="For beginners &amp; kids."
+              data-ar="مناسب للمبتدئين والأطفال."
+            >
+              For beginners &amp; kids.
+            </p>
+            <ul class="mt-3 space-y-1.5 text-sm text-slate-700">
+              <li>• Arabic letters &amp; sounds</li>
+              <li>• Noorani / Qaida method</li>
+              <li>• Short surahs with practice</li>
+            </ul>
+            <p
+              class="mt-3 text-xs font-semibold text-pink-600"
+              data-en="Goal: read Qur'an correctly line-by-line."
+              data-ar="الهدف: قراءة القرآن بشكل صحيح آيةً آية."
+            >
+              Goal: read Qur'an correctly line-by-line.
+            </p>
+          </div>
+        </article>
+
+        <!-- 2. Tajweed -->
+        <article class="reveal relative overflow-hidden rounded-2xl bg-white border border-amber-200/70 shadow-lg shadow-amber-100/70 transition hover:-translate-y-1 hover:shadow-xl hover:shadow-amber-100/90">
+          <div class="h-1.5 w-full bg-gradient-to-r from-amber-400 via-orange-400 to-rose-400"></div>
+          <span class="absolute -top-3 left-4 inline-flex h-7 w-7 md:h-8 md:w-8 items-center justify-center rounded-full bg-amber-400 text-[10px] font-bold text-white shadow-md">
+            02
+          </span>
+
+          <div class="p-5 pt-7">
+            <h4
+              class="text-xl font-bold text-slate-900"
+              data-en="Tajweed"
+              data-ar="التجويد"
+            >
+              Tajweed
+            </h4>
+            <p
+              class="mt-1 text-sm text-slate-700"
+              data-en="Rule-based recitation."
+              data-ar="تلاوة قائمة على قواعد التجويد."
+            >
+              Rule-based recitation.
+            </p>
+            <ul class="mt-3 space-y-1.5 text-sm text-slate-700">
+              <li>• Makharij &amp; sifat</li>
+              <li>• Idgham, ikhfa, qalqalah</li>
+              <li>• Teacher listens &amp; corrects</li>
+            </ul>
+            <p
+              class="mt-3 text-xs font-semibold text-amber-600"
+              data-en="Goal: recite like your teacher."
+              data-ar="الهدف: تلاوة شبيهة بتلاوة الشيخ/المعلمة."
+            >
+              Goal: recite like your teacher.
+            </p>
+          </div>
+        </article>
+
+        <!-- 3. Islamic Studies -->
+        <article class="reveal relative overflow-hidden rounded-2xl bg-white border border-amber-200/70 shadow-lg shadow-amber-100/70 transition hover:-translate-y-1 hover:shadow-xl hover:shadow-amber-100/90">
+          <div class="h-1.5 w-full bg-gradient-to-r from-emerald-400 via-teal-400 to-sky-400"></div>
+          <span class="absolute -top-3 left-4 inline-flex h-7 w-7 md:h-8 md:w-8 items-center justify-center rounded-full bg-emerald-400 text-[10px] font-bold text-white shadow-md">
+            03
+          </span>
+
+          <div class="p-5 pt-7">
+            <h4
+              class="text-xl font-bold text-slate-900"
+              data-en="Islamic Studies"
+              data-ar="الدراسات الإسلامية"
+            >
+              Islamic Studies
+            </h4>
+            <p
+              class="mt-1 text-sm text-slate-700"
+              data-en="For kids, sisters, and new Muslims."
+              data-ar="للأطفال، والأخوات، والمسلمين الجدد."
+            >
+              For kids, sisters, and new Muslims.
+            </p>
+            <ul class="mt-3 space-y-1.5 text-sm text-slate-700">
+              <li>• Aqidah &amp; pillars of Islam</li>
+              <li>• Fiqh (wudu, salah, fasting)</li>
+              <li>• Seerah &amp; manners</li>
+            </ul>
+            <p
+              class="mt-3 text-xs font-semibold text-emerald-600"
+              data-en="Goal: understand &amp; practice Islam."
+              data-ar="الهدف: فهم الإسلام وتطبيقه في الحياة اليومية."
+            >
+              Goal: understand &amp; practice Islam.
+            </p>
+          </div>
+        </article>
+
+        <!-- 4. Arabic -->
+        <article class="reveal relative overflow-hidden rounded-2xl bg-white border border-amber-200/70 shadow-lg shadow-amber-100/70 transition hover:-translate-y-1 hover:shadow-xl hover:shadow-amber-100/90">
+          <div class="h-1.5 w-full bg-gradient-to-r from-sky-400 via-indigo-400 to-violet-500"></div>
+          <span class="absolute -top-3 left-4 inline-flex h-7 w-7 md:h-8 md:w-8 items-center justify-center rounded-full bg-sky-500 text-[10px] font-bold text-white shadow-md">
+            04
+          </span>
+
+          <div class="p-5 pt-7">
+            <h4
+              class="text-xl font-bold text-slate-900"
+              data-en="Arabic"
+              data-ar="اللغة العربية"
+            >
+              Arabic
+            </h4>
+            <p
+              class="mt-1 text-sm text-slate-700"
+              data-en="Qur’anic &amp; modern Arabic."
+              data-ar="العربية الفصحى الحديثة واللغة القرآنية."
+            >
+              Qur’anic &amp; modern Arabic.
+            </p>
+            <ul class="mt-3 space-y-1.5 text-sm text-slate-700">
+              <li>• Reading &amp; writing</li>
+              <li>• Basic grammar</li>
+              <li>• Conversation for sisters/kids</li>
+            </ul>
+            <p
+              class="mt-3 text-xs font-semibold text-sky-600"
+              data-en="Goal: understand what you recite."
+              data-ar="الهدف: فهم ما تقرأه من القرآن."
+            >
+              Goal: understand what you recite.
+            </p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- teachers -->
+  <section id="teachers" class="py-16 bg-slate-50">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="reveal text-center max-w-2xl mx-auto">
+        <h3
+          class="text-3xl font-extrabold text-slate-900"
+          data-en="Our Teachers"
+          data-ar="معلمونا"
+        >
+          Our Teachers
+        </h3>
+        <p
+          class="mt-3 text-slate-600"
+          data-en="A selected group of highly qualified Al-Azhar teachers."
+          data-ar="نخبة من المعلمين والمعلمات المؤهلين من الأزهر الشريف."
+        >
+          A selected group of highly qualified Al-Azhar teachers.
+        </p>
+      </div>
+      <div class="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="reveal rounded-2xl bg-white border border-slate-200 p-6 shadow-soft/40">
+          <div class="w-16 h-16 rounded-full bg-brand-50 border border-brand-200"></div>
+          <h4 class="mt-4 font-bold text-slate-900">Ustadh Ahmed</h4>
+          <p
+            class="text-sm text-slate-600"
+            data-en="Tajweed • Hifz • Adults & boys"
+            data-ar="التجويد • الحفظ • للكبار والأولاد"
+          >
+            Tajweed • Hifz • Adults & boys
+          </p>
+        </div>
+        <div class="reveal rounded-2xl bg-white border border-slate-200 p-6 shadow-soft/40">
+          <div class="w-16 h-16 rounded-full bg-brand-50 border border-brand-200"></div>
+          <h4 class="mt-4 font-bold text-slate-900">Ustadha Mariam</h4>
+          <p
+            class="text-sm text-slate-600"
+            data-en="Qur'an for sisters • Kids • Islamic manners"
+            data-ar="قرآن للأخوات • للأطفال • الآداب الإسلامية"
+          >
+            Qur'an for sisters • Kids • Islamic manners
+          </p>
+        </div>
+        <div class="reveal rounded-2xl bg-white border border-slate-200 p-6 shadow-soft/40">
+          <div class="w-16 h-16 rounded-full bg-brand-50 border border-brand-200"></div>
+          <h4 class="mt-4 font-bold text-slate-900">Ustadha Fatima</h4>
+          <p
+            class="text-sm text-slate-600"
+            data-en="Arabic reading • Seerah • Ladies"
+            data-ar="قراءة العربية • السيرة النبوية • للنساء"
+          >
+            Arabic reading • Seerah • Ladies
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Login role section -->
+  <section id="login" class="py-16 bg-slate-50">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="reveal text-center max-w-2xl mx-auto">
+        <h3
+          class="text-3xl font-extrabold text-slate-900"
+          data-en="Login"
+          data-ar="تسجيل الدخول"
+        >
+          Login
+        </h3>
+        <p
+          class="mt-3 text-slate-600"
+          data-en="Choose your role to continue to your dashboard."
+          data-ar="اختر نوع الحساب للدخول إلى لوحة التحكم."
+        >
+          Choose your role to continue to your dashboard.
+        </p>
+      </div>
+      <div class="mt-10 grid sm:grid-cols-3 gap-4">
+        <a href="/login?role=student"
+           class="reveal block rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-soft/40 hover:shadow-soft">
+          <h4
+            class="text-xl font-bold text-slate-900"
+            data-en="Student"
+            data-ar="طالب"
+          >
+            Student
+          </h4>
+          <p
+            class="mt-1 text-sm text-slate-600"
+            data-en="Enroll in courses, view schedule"
+            data-ar="التسجيل في الدورات، عرض المواعيد"
+          >
+            Enroll in courses, view schedule
+          </p>
+        </a>
+        <a href="/login?role=teacher"
+           class="reveal block rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-soft/40 hover:shadow-soft">
+          <h4
+            class="text-xl font-bold text-slate-900"
+            data-en="Teacher"
+            data-ar="معلم"
+          >
+            Teacher
+          </h4>
+          <p
+            class="mt-1 text-sm text-slate-600"
+            data-en="Set availability, manage classes"
+            data-ar="تحديد الأوقات، إدارة الحصص"
+          >
+            Set availability, manage classes
+          </p>
+        </a>
+        <a href="/login?role=admin"
+           class="reveal block rounded-2xl border border-amber-200 bg-white p-6 text-center shadow-soft/40 hover:shadow-soft">
+          <h4
+            class="text-xl font-bold text-slate-900"
+            data-en="Admin"
+            data-ar="مشرف"
+          >
+            Admin
+          </h4>
+          <p
+            class="mt-1 text-sm text-slate-600"
+            data-en="Approve users, assign sessions"
+            data-ar="الموافقة على المستخدمين، وتوزيع الحصص"
+          >
+            Approve users, assign sessions
+          </p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- contact -->
+  <section id="contact" class="py-16">
+    <div class="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-10 items-center">
+      <div class="reveal">
+        <h3
+          class="text-3xl font-extrabold text-slate-900"
+          data-en="Book your free trial"
+          data-ar="احجز حصتك التجريبية المجانية"
+        >
+          Book your free trial
+        </h3>
+        <p
+          class="mt-3 text-slate-600"
+          data-en="Send us your name, child's age, course you want, and your time zone."
+          data-ar="أرسل لنا اسمك، عمر الطفل، الدورة المطلوبة، والمنطقة الزمنية."
+        >
+          Send us your name, child's age, course you want, and your time zone.
+        </p>
+        <div class="mt-6 space-y-3">
+          <a href="https://wa.me/201503780010" target="_blank" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-emerald-600 text-white shadow-soft hover:bg-emerald-500">
+            <span
+              data-en="WhatsApp: +20 15 03780010"
+              data-ar="واتساب: ‎+20 15 03780010"
+            >
+              WhatsApp: +20 15 03780010
+            </span>
+          </a>
+          <a href="mailto:info@sajdahquran.academy" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl border border-slate-200 text-slate-800 hover:bg-slate-50">
+            <span
+              data-en="Email: info@sajdahquran.academy"
+              data-ar="البريد الإلكتروني: info@sajdahquran.academy"
+            >
+              Email: info@sajdahquran.academy
+            </span>
+          </a>
+        </div>
+      </div>
+      <form class="reveal bg-white border border-slate-200 rounded-3xl p-6 grid gap-4 shadow-soft" onsubmit="event.preventDefault(); alert('Thank you! We will contact you shortly in shaa Allah.');">
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label class="text-sm text-slate-700"
+                   data-en="Name"
+                   data-ar="الاسم">
+              Name
+            </label>
+            <input required class="mt-1 w-full rounded-lg bg-white border border-slate-300 px-3 py-2 text-sm" type="text" placeholder="Your name">
+          </div>
+          <div>
+            <label class="text-sm text-slate-700"
+                   data-en="Email"
+                   data-ar="البريد الإلكتروني">
+              Email
+            </label>
+            <input required class="mt-1 w-full rounded-lg bg-white border border-slate-300 px-3 py-2 text-sm" type="email" placeholder="you@example.com">
+          </div>
+        </div>
+        <div>
+          <label class="text-sm text-slate-700"
+                 data-en="Course"
+                 data-ar="الدورة المطلوبة">
+            Course
+          </label>
+          <select class="mt-1 w-full rounded-lg bg-white border border-slate-300 px-3 py-2 text-sm">
+            <option>Qur'an Reading</option>
+            <option>Tajweed</option>
+            <option>Islamic Studies</option>
+            <option>Arabic</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-sm text-slate-700"
+                 data-en="Message / Time zone"
+                 data-ar="الرسالة / المنطقة الزمنية">
+            Message / Time zone
+          </label>
+          <textarea class="mt-1 w-full rounded-lg bg-white border border-slate-300 px-3 py-2 text-sm" rows="3" placeholder="e.g. Europe/Berlin, evening, for my 7-year-old daughter"></textarea>
+        </div>
+        <button
+          class="mt-1 px-5 py-3 rounded-xl bg-brand-700 hover:bg-brand-600 text-white text-sm font-semibold"
+          data-en="Send"
+          data-ar="إرسال"
+        >
+          Send
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- footer -->
+  <footer class="py-10 border-t border-slate-200 bg-white">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between gap-4 text-sm text-slate-500">
+      <p
+        data-en="© YEAR Sajdah Qur'an School. All rights reserved."
+        data-ar="© YEAR مدرسة سجدة للقرآن. جميع الحقوق محفوظة."
+      >
+        © <span id="year"></span> Sajdah Qur'an School. All rights reserved.
+      </p>
+      <p
+        data-en="Qur'an • Tajweed • Islamic Studies • Arabic"
+        data-ar="القرآن • التجويد • الدراسات الإسلامية • العربية"
+      >
+        Qur'an • Tajweed • Islamic Studies • Arabic
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // reveals
+    const onScroll = () => {
+      document.querySelectorAll('.reveal').forEach(el => {
+        const r = el.getBoundingClientRect();
+        if (r.top < window.innerHeight - 80) el.classList.add('show');
+      });
+    };
+    window.addEventListener('scroll', onScroll);
+    window.addEventListener('load', () => {
+      onScroll();
+      const y = new Date().getFullYear();
+      const yearSpan = document.getElementById('year');
+      if (yearSpan) yearSpan.textContent = y;
+      // also update footer YEAR placeholder in data-ar/en paragraphs if needed
+      document.querySelectorAll('footer [data-en][data-ar]').forEach(el => {
+        el.dataset.en = el.dataset.en.replace('YEAR', y);
+        el.dataset.ar = el.dataset.ar.replace('YEAR', y);
+      });
+    });
+
+    // mobile menu
+    document.getElementById('menuBtn').addEventListener('click', () => {
+      document.getElementById('mobileNav').classList.toggle('hidden');
+    });
+
+    // RTL + language toggle with text swap
+    const langBtn = document.getElementById('langToggle');
+    langBtn.addEventListener('click', () => {
+      const html = document.documentElement;
+      const currentlyRTL = html.getAttribute('dir') === 'rtl';
+      const switchingToArabic = !currentlyRTL;
+
+      // direction + lang
+      html.setAttribute('dir', switchingToArabic ? 'rtl' : 'ltr');
+      html.setAttribute('lang', switchingToArabic ? 'ar' : 'en');
+
+      // button label
+      langBtn.textContent = switchingToArabic ? 'English' : 'العربية';
+
+      // font
+      document.body.style.fontFamily = switchingToArabic
+        ? 'Cairo, Inter, system-ui'
+        : 'Inter, system-ui';
+
+      // text swap for all elements with data-en and data-ar
+      document.querySelectorAll('[data-en][data-ar]').forEach(el => {
+        el.textContent = switchingToArabic ? el.dataset.ar : el.dataset.en;
+      });
+    });
+  </script>
+</body>
+</html>
