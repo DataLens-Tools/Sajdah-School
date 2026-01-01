@@ -20,3 +20,5 @@ pnpm-debug.log*
 # OS / editor
 .DS_Store
 .vscode/
+
+*.docx
