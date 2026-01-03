@@ -1,7 +1,7 @@
 // app/student/dashboard/page.tsx
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { createClient } from "@/lib/supabaseClient";
+import { createServer } from "@/lib/supabaseServer";
 
 export const dynamic = "force-dynamic";
 
@@ -28,10 +28,11 @@ type SessionRow = {
 
 type MessageRow = {
   id: string;
-  teacher_id: string;
   sender_id: string;
+  receiver_id: string;
   body: string;
   created_at: string;
+  teacher_id?: string; // derived
 };
 
 type AssessmentRow = {
@@ -71,54 +72,60 @@ function timeAgo(dtIso: string) {
 }
 
 export default async function StudentDashboardPage() {
-  const supabase = createClient();
+  const supabase = createServer();
 
-  // 1) auth user
+  // 1) auth user (SERVER cookies)
   const {
     data: { user },
     error: userErr,
   } = await supabase.auth.getUser();
 
-  if (userErr || !user) redirect("/login");
+  if (userErr || !user) redirect("/login?role=student&next=/student/dashboard");
 
-  // 2) profile (for header)
+  // 2) profile
   const { data: profile, error: profileErr } = await supabase
     .from("profiles")
     .select("id, full_name, avatar_url, role")
     .eq("id", user.id)
     .maybeSingle();
 
-  // Role guard (recommended)
-  if (profile?.role && profile.role !== "student") {
-    redirect("/dashboard");
-  }
+  if (profile?.role && profile.role !== "student") redirect("/dashboard");
 
   const nowIso = new Date().toISOString();
 
-  // 3) sessions (upcoming)
+  // 3) upcoming sessions
   const { data: upcomingRaw, error: sessErr } = await supabase
     .from("class_sessions")
     .select("id, start_utc, end_utc, status, zoom_url, teacher_id, course_id")
     .eq("student_id", user.id)
-    .gte("end_utc", nowIso) // includes "currently live" sessions too
+    .gte("end_utc", nowIso)
     .order("start_utc", { ascending: true })
     .limit(5);
 
   const upcoming = (upcomingRaw ?? []) as SessionRow[];
   const nextSession = upcoming[0] ?? null;
 
-  // 4) latest message preview
+  // 4) latest message
   const { data: lastMsgRaw, error: msgErr } = await supabase
     .from("messages")
-    .select("id, teacher_id, sender_id, body, created_at")
-    .eq("student_id", user.id)
+    .select("id, sender_id, receiver_id, body, created_at")
+    .or(`sender_id.eq.${user.id},receiver_id.eq.${user.id}`)
     .order("created_at", { ascending: false })
     .limit(1)
     .maybeSingle();
 
-  const lastMsg = (lastMsgRaw ?? null) as MessageRow | null;
+  const lastMsg = lastMsgRaw
+  ? {
+      ...lastMsgRaw,
+      teacher_id:
+        lastMsgRaw.sender_id === user.id
+          ? lastMsgRaw.receiver_id
+          : lastMsgRaw.sender_id,
+    }
+  : null;
 
-  // 5) recent assessments preview (last 3)
+
+  // 5) recent assessments
   const { data: recentAssessmentsRaw, error: asmtErr } = await supabase
     .from("assessments")
     .select("id, teacher_id, class_session_id, rating, notes, created_at")
@@ -128,7 +135,7 @@ export default async function StudentDashboardPage() {
 
   const recentAssessments = (recentAssessmentsRaw ?? []) as AssessmentRow[];
 
-  // 6) fetch teacher + course mini records for display
+  // 6) fetch teachers + courses
   const teacherIds = Array.from(
     new Set([
       ...upcoming.map((s) => s.teacher_id),
@@ -154,7 +161,6 @@ export default async function StudentDashboardPage() {
 
   return (
     <div className="mx-auto max-w-5xl p-4 sm:p-6">
-      {/* Header */}
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Student Dashboard</h1>
@@ -184,16 +190,13 @@ export default async function StudentDashboardPage() {
         </div>
       </div>
 
-      {/* Error state */}
       {sessErr ? (
         <div className="mt-6 rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700">
           Failed to load sessions: {sessErr.message}
         </div>
       ) : null}
 
-      {/* Main cards */}
       <div className="mt-6 grid grid-cols-1 gap-4">
-        {/* Next Class Card */}
         <div className="rounded-xl border bg-white p-5 shadow-sm">
           <div className="flex items-start justify-between gap-4">
             <div>
@@ -261,7 +264,6 @@ export default async function StudentDashboardPage() {
           </div>
         </div>
 
-        {/* Upcoming classes list */}
         <div className="rounded-xl border bg-white p-5 shadow-sm">
           <div className="flex items-center justify-between">
             <p className="text-sm font-semibold">Upcoming classes</p>
@@ -303,7 +305,6 @@ export default async function StudentDashboardPage() {
           )}
         </div>
 
-        {/* Messages card */}
         <div className="rounded-xl border bg-white p-5 shadow-sm">
           <div className="flex items-center justify-between">
             <p className="text-sm font-semibold">Messages</p>
@@ -315,9 +316,7 @@ export default async function StudentDashboardPage() {
           {msgErr ? (
             <p className="mt-3 text-sm text-red-600">Failed to load messages: {msgErr.message}</p>
           ) : !lastMsg ? (
-            <p className="mt-3 text-sm text-gray-600">
-              No messages yet. You can message your teacher anytime.
-            </p>
+            <p className="mt-3 text-sm text-gray-600">No messages yet.</p>
           ) : (
             <div className="mt-3 rounded-lg bg-gray-50 p-4">
               <p className="text-xs text-gray-500">
@@ -328,7 +327,6 @@ export default async function StudentDashboardPage() {
           )}
         </div>
 
-        {/* Assessments card */}
         <div className="rounded-xl border bg-white p-5 shadow-sm">
           <div className="flex items-center justify-between">
             <p className="text-sm font-semibold">Assessments</p>
@@ -340,9 +338,7 @@ export default async function StudentDashboardPage() {
           {asmtErr ? (
             <p className="mt-3 text-sm text-red-600">Failed to load assessments: {asmtErr.message}</p>
           ) : recentAssessments.length === 0 ? (
-            <p className="mt-3 text-sm text-gray-600">
-              No assessments yet. Feedback will appear here after your classes.
-            </p>
+            <p className="mt-3 text-sm text-gray-600">No assessments yet.</p>
           ) : (
             <div className="mt-3 space-y-3">
               {recentAssessments.map((a) => (

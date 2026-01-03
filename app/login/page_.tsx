@@ -27,33 +27,36 @@ export default function LoginPage() {
     try {
       setLoading(true);
 
-      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
       if (error) return setErr(error.message);
+      if (!data?.user) return setErr('Login failed: no user returned.');
 
-      const userId = data.user?.id;
-      if (!userId) return setErr("Login succeeded but no user returned.");
-
-      // ✅ fetch THIS user's role
-      const { data: profile, error: profErr } = await supabase
+      // IMPORTANT: fetch the profile role for THIS user
+      const { data: profile, error: profileErr } = await supabase
         .from('profiles')
         .select('role')
-        .eq('id', userId)
+        .eq('id', data.user.id)
         .maybeSingle();
 
-      if (profErr) {
-        // not fatal; we can fallback to URL role
-        console.warn("Profile role fetch failed:", profErr.message);
-      }
+      if (profileErr) return setErr(profileErr.message);
 
       const effectiveRole = (profile?.role ?? role) as Role;
 
-      // ✅ if user was trying to open a protected URL, send them back
+      // If we were redirected here, go back to that page after login
       const next = sp.get('next');
-      if (next) return router.replace(next);
+      if (next) {
+        router.push(next);
+        return;
+      }
 
-      if (effectiveRole === 'admin') router.replace('/admin');
-      else if (effectiveRole === 'teacher') router.replace('/teacher/dashboard');
-      else router.replace('/student/dashboard');
+      // Default landing pages
+      if (effectiveRole === 'admin') router.push('/admin');
+      else if (effectiveRole === 'teacher') router.push('/teacher/dashboard');
+      else router.push('/student/dashboard');
     } catch (e: any) {
       setErr(e?.message ?? 'Login failed.');
     } finally {
@@ -65,6 +68,7 @@ export default function LoginPage() {
     <main className="min-h-screen bg-gradient-to-b from-white via-emerald-50/20 to-white flex items-center">
       <div className="max-w-7xl mx-auto w-full px-4">
         <div className="max-w-sm mx-auto">
+          {/* Heading */}
           <div className="text-center mb-8">
             <img
               src="/assets/sajdah-logo.png"
@@ -73,14 +77,18 @@ export default function LoginPage() {
             />
             <h1 className="text-3xl font-extrabold text-slate-900">Login</h1>
             <p className="mt-2 text-sm text-slate-600">
-              Logging in as <span className="font-semibold text-emerald-700">{role}</span>
+              Logging in as{' '}
+              <span className="font-semibold text-emerald-700">{role}</span>
             </p>
           </div>
 
+          {/* Card */}
           <div className="rounded-3xl bg-white border border-amber-200/80 shadow-[0_18px_45px_rgba(15,23,42,0.12)] p-6 sm:p-7">
             <form onSubmit={onLogin} className="grid gap-4">
               <div>
-                <label className="block text-sm text-slate-700 mb-1">Email</label>
+                <label className="block text-sm text-slate-700 mb-1">
+                  Email
+                </label>
                 <input
                   className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-300 focus:border-amber-300"
                   placeholder="you@example.com"
@@ -92,7 +100,9 @@ export default function LoginPage() {
               </div>
 
               <div>
-                <label className="block text-sm text-slate-700 mb-1">Password</label>
+                <label className="block text-sm text-slate-700 mb-1">
+                  Password
+                </label>
                 <input
                   className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-300 focus:border-amber-300"
                   placeholder="••••••••"
@@ -119,9 +129,26 @@ export default function LoginPage() {
 
             <p className="mt-4 text-center text-xs text-slate-500">
               Switch role:&nbsp;
-              <a href="/login?role=student" className="text-amber-700 hover:underline">student</a> •{' '}
-              <a href="/login?role=teacher" className="text-amber-700 hover:underline">teacher</a> •{' '}
-              <a href="/login?role=admin" className="text-amber-700 hover:underline">admin</a>
+              <a
+                href="/login?role=student"
+                className="text-amber-700 hover:underline"
+              >
+                student
+              </a>{' '}
+              •{' '}
+              <a
+                href="/login?role=teacher"
+                className="text-amber-700 hover:underline"
+              >
+                teacher
+              </a>{' '}
+              •{' '}
+              <a
+                href="/login?role=admin"
+                className="text-amber-700 hover:underline"
+              >
+                admin
+              </a>
             </p>
           </div>
         </div>

@@ -1,12 +1,20 @@
 // app/student/classes/page.tsx
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { createServer } from "@/lib/supabaseServer";
+import { createClient } from "@/lib/supabaseClient";
 
 export const dynamic = "force-dynamic";
 
-type TeacherMini = { id: string; full_name: string | null; avatar_url: string | null };
-type CourseMini = { id: string; title: string | null };
+type TeacherMini = {
+  id: string;
+  full_name: string | null;
+  avatar_url: string | null;
+};
+
+type CourseMini = {
+  id: string;
+  title: string | null;
+};
 
 type SessionRow = {
   id: string;
@@ -30,15 +38,17 @@ function formatLocal(dtIso: string) {
 }
 
 export default async function StudentClassesPage() {
-  const supabase = createServer();
+  const supabase = createClient();
 
+  // auth
   const {
     data: { user },
     error: userErr,
   } = await supabase.auth.getUser();
 
-  if (userErr || !user) redirect("/login?role=student&next=/student/classes");
+  if (userErr || !user) redirect("/login");
 
+  // role guard
   const { data: profile } = await supabase
     .from("profiles")
     .select("id, role")
@@ -49,6 +59,7 @@ export default async function StudentClassesPage() {
 
   const nowIso = new Date().toISOString();
 
+  // upcoming
   const { data: upcomingRaw, error: upErr } = await supabase
     .from("class_sessions")
     .select("id, start_utc, end_utc, status, zoom_url, teacher_id, course_id")
@@ -57,6 +68,7 @@ export default async function StudentClassesPage() {
     .order("start_utc", { ascending: true })
     .limit(50);
 
+  // history
   const { data: historyRaw, error: histErr } = await supabase
     .from("class_sessions")
     .select("id, start_utc, end_utc, status, zoom_url, teacher_id, course_id")
@@ -68,8 +80,14 @@ export default async function StudentClassesPage() {
   const upcoming = (upcomingRaw ?? []) as SessionRow[];
   const history = (historyRaw ?? []) as SessionRow[];
 
-  const teacherIds = Array.from(new Set([...upcoming, ...history].map((s) => s.teacher_id))).filter(Boolean);
-  const courseIds = Array.from(new Set([...upcoming, ...history].map((s) => s.course_id).filter(Boolean))) as string[];
+  // fetch teachers + courses for both lists
+  const teacherIds = Array.from(
+    new Set([...upcoming, ...history].map((s) => s.teacher_id))
+  ).filter(Boolean);
+
+  const courseIds = Array.from(
+    new Set([...upcoming, ...history].map((s) => s.course_id).filter(Boolean))
+  ) as string[];
 
   const [{ data: teachers }, { data: courses }] = await Promise.all([
     teacherIds.length
@@ -102,6 +120,7 @@ export default async function StudentClassesPage() {
         </div>
       )}
 
+      {/* Upcoming */}
       <div className="mt-6 rounded-xl border bg-white p-5 shadow-sm">
         <div className="flex items-center justify-between">
           <p className="text-sm font-semibold">Upcoming</p>
@@ -115,7 +134,9 @@ export default async function StudentClassesPage() {
             {upcoming.map((s) => (
               <div key={s.id} className="flex items-center justify-between py-3">
                 <div>
-                  <p className="text-sm font-medium">{courseMap.get(s.course_id ?? "")?.title ?? "Lesson"}</p>
+                  <p className="text-sm font-medium">
+                    {courseMap.get(s.course_id ?? "")?.title ?? "Lesson"}
+                  </p>
                   <p className="text-xs text-gray-600">
                     {formatLocal(s.start_utc)} – {formatLocal(s.end_utc)} •{" "}
                     {teacherMap.get(s.teacher_id)?.full_name ?? "Teacher"}
@@ -145,6 +166,7 @@ export default async function StudentClassesPage() {
         )}
       </div>
 
+      {/* History */}
       <div className="mt-4 rounded-xl border bg-white p-5 shadow-sm">
         <div className="flex items-center justify-between">
           <p className="text-sm font-semibold">History</p>
@@ -157,7 +179,9 @@ export default async function StudentClassesPage() {
           <div className="mt-3 divide-y">
             {history.map((s) => (
               <div key={s.id} className="py-3">
-                <p className="text-sm font-medium">{courseMap.get(s.course_id ?? "")?.title ?? "Lesson"}</p>
+                <p className="text-sm font-medium">
+                  {courseMap.get(s.course_id ?? "")?.title ?? "Lesson"}
+                </p>
                 <p className="text-xs text-gray-600">
                   {formatLocal(s.start_utc)} – {formatLocal(s.end_utc)} •{" "}
                   {teacherMap.get(s.teacher_id)?.full_name ?? "Teacher"}
