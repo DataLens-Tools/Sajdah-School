@@ -1018,6 +1018,30 @@
       langBtn.textContent = rtl ? 'العربية' : 'English';
       document.body.style.fontFamily = rtl ? 'Inter, system-ui' : 'Cairo, Inter, system-ui';
     });
+
+    // Trial form -> WhatsApp (ADDED)
+    document.getElementById("trialForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const course = document.getElementById("course").value;
+      const message = document.getElementById("message").value.trim();
+
+      const text =
+`Free Trial Request:
+Name: ${name}
+Email: ${email}
+Course: ${course}
+Message/Timezone: ${message || "-"}`;
+
+       const whatsappNumber = "201503780010"; // no +, no spaces
+      const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
+
+      window.open(url, "_blank");
+      alert("Thank you! Your message is ready in WhatsApp. Please tap Send, in shaa Allah.");
+      e.target.reset();
+    });
   </script>
 </body>
 </html>
