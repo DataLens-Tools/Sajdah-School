@@ -57,6 +57,7 @@
     [dir="rtl"] .rtl\:text-right{text-align:right}
   </style>
 </head>
+
 <body class="bg-white text-slate-900 antialiased font-sans">
   <!-- top strip -->
   <div class="bg-brand-800 text-emerald-50 text-xs">
@@ -90,7 +91,7 @@
         <a href="#contact" class="px-4 py-1.5 rounded-lg bg-brand-700 text-white shadow-soft hover:bg-brand-600">Free Trial</a>
       </nav>
       <button id="menuBtn" class="md:hidden p-2 text-slate-800" aria-label="menu">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        <svg xmlns="https://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/></svg>
       </button>
     </div>
     <div id="mobileNav" class="hidden md:hidden border-t border-slate-200 bg-white/95">
@@ -928,34 +929,45 @@
         </p>
       </div>
 
-      <!-- Form -->
+      <!-- Form (Formspree) -->
       <form
+        id="trialForm"
+        action="https://formspree.io/f/mykkdlbd"
+        method="POST"
         class="reveal bg-white border border-accent-200 rounded-3xl p-6 sm:p-7 grid gap-4 shadow-soft hover:shadow-lg transition"
-        onsubmit="event.preventDefault(); alert('Thank you! We will contact you shortly in shaa Allah.');"
       >
+        <input type="hidden" name="source" value="Sajdah Landing Page" />
+
         <div class="grid sm:grid-cols-2 gap-4">
           <div>
-            <label class="text-sm text-slate-700">Name</label>
+            <label for="name" class="text-sm text-slate-700">Name</label>
             <input
+              id="name"
+              name="name"
               required
               class="mt-1 w-full rounded-lg bg-white border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent-300 focus:border-accent-300"
               type="text"
               placeholder="Your name"
-            >
+            />
           </div>
           <div>
-            <label class="text-sm text-slate-700">Email</label>
+            <label for="email" class="text-sm text-slate-700">Email</label>
             <input
+              id="email"
+              name="email"
               required
               class="mt-1 w-full rounded-lg bg-white border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent-300 focus:border-accent-300"
               type="email"
               placeholder="you@example.com"
-            >
+            />
           </div>
         </div>
+
         <div>
-          <label class="text-sm text-slate-700">Course</label>
+          <label for="course" class="text-sm text-slate-700">Course</label>
           <select
+            id="course"
+            name="course"
             class="mt-1 w-full rounded-lg bg-white border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent-300 focus:border-accent-300"
           >
             <option>Qur'an Reading</option>
@@ -964,15 +976,22 @@
             <option>Arabic</option>
           </select>
         </div>
+
         <div>
-          <label class="text-sm text-slate-700">Message / Time zone</label>
+          <label for="message" class="text-sm text-slate-700">Message / Time zone</label>
           <textarea
+            id="message"
+            name="message"
             class="mt-1 w-full rounded-lg bg-white border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent-300 focus:border-accent-300"
             rows="3"
             placeholder="e.g. Europe/Berlin, evening, for my 7-year-old daughter"
           ></textarea>
         </div>
+
+        <p id="formStatus" class="hidden text-sm"></p>
+
         <button
+          type="submit"
           class="mt-1 px-5 py-3 rounded-xl bg-brand-700 hover:bg-brand-600 text-white text-sm font-semibold shadow-soft"
         >
           Send
@@ -1019,29 +1038,49 @@
       document.body.style.fontFamily = rtl ? 'Inter, system-ui' : 'Cairo, Inter, system-ui';
     });
 
-    // Trial form -> WhatsApp (ADDED)
-    document.getElementById("trialForm").addEventListener("submit", (e) => {
-      e.preventDefault();
+    // Formspree AJAX submit (no redirect, shows status)
+    const trialForm = document.getElementById("trialForm");
+    const formStatus = document.getElementById("formStatus");
 
-      const name = document.getElementById("name").value.trim();
-      const email = document.getElementById("email").value.trim();
-      const course = document.getElementById("course").value;
-      const message = document.getElementById("message").value.trim();
+    if (trialForm) {
+      trialForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
 
-      const text =
-`Free Trial Request:
-Name: ${name}
-Email: ${email}
-Course: ${course}
-Message/Timezone: ${message || "-"}`;
+        formStatus.classList.remove("hidden");
+        formStatus.classList.remove("text-emerald-700", "text-rose-700");
+        formStatus.classList.add("text-slate-600");
+        formStatus.textContent = "Sending...";
 
-       const whatsappNumber = "201503780010"; // no +, no spaces
-      const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
+        try {
+          const res = await fetch(trialForm.action, {
+            method: "POST",
+            body: new FormData(trialForm),
+            headers: { "Accept": "application/json" }
+          });
 
-      window.open(url, "_blank");
-      alert("Thank you! Your message is ready in WhatsApp. Please tap Send, in shaa Allah.");
-      e.target.reset();
-    });
+          if (res.ok) {
+            formStatus.classList.remove("text-slate-600");
+            formStatus.classList.add("text-emerald-700");
+            formStatus.textContent =
+              "Thank you! Your request has been sent. We will contact you shortly in shaa Allah.";
+            trialForm.reset();
+          } else {
+            const data = await res.json().catch(() => ({}));
+            formStatus.classList.remove("text-slate-600");
+            formStatus.classList.add("text-rose-700");
+            formStatus.textContent =
+              data?.error || "Something went wrong. Please try again or contact us on WhatsApp.";
+          }
+        } catch (err) {
+          formStatus.classList.remove("text-slate-600");
+          formStatus.classList.add("text-rose-700");
+          formStatus.textContent =
+            "Network error. Please try again or contact us on WhatsApp.";
+        }
+      });
+    } else {
+      console.warn("trialForm not found. Add id='trialForm' to the form.");
+    }
   </script>
 </body>
 </html>
